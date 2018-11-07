@@ -1,4 +1,6 @@
 import tensorflow as tf
+import os
+import sys
 from utils import sort_ops ,_get_ops_in_path
 from GraphBuilder import GraphBuilder
 from MergeLayers import merge_layers
@@ -167,10 +169,24 @@ def print_graph(ops):
     for op in ops:
         output = op.outputs[0] 
         print(op.inputs,output)
-# ops = read_graph_from_pb( 'tmp.pb' ,['cond/Merge:0'],'Softmax:0')	
-# ops = read_graph_from_pb( 'ios_hw_model.pb' ,['input:0'],'scores:0')
-# ops = read_graph_from_pb( 'mobilenet_v1_1.0_192_frozen.pb' ,['input:0'],'MobilenetV1/Predictions/Reshape_1:0')
-# ops = read_graph_from_ckpt('model-652800',['cond/Merge:0'],'Softmax:0')
-ops = read_graph_from_ckpt('mobilenet_v1_1.0_192.ckpt',['batch:0'],'MobilenetV1/Predictions/Reshape_1:0')
+def read_graph(model_path,input_names,output_name,html_dst):
+    dir_path = os.path.dirname(html_dst)
+    if len(dir_path)>0 and not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+    if model_path.endswith('pb'):
+        ops = read_graph_from_pb( model_path ,input_names,output_name)	
+    else:
+        ops = read_graph_from_ckpt(model_path ,input_names,output_name)
+    
+    print(dir_path)
+    gen_graph(ops,html_dst)
+if __name__=='__main__':
+    model_path = sys.argv[1]
+    input_names = sys.argv[2]
+    output_name = sys.argv[3]
+    html_dst = sys.argv[4]
+    input_names=input_names.split(',')
+    read_graph(model_path,input_names,output_name,html_dst)
  
-gen_graph(ops,'html_dst3.html')
+# read_graph('../../mobilenet_v1_1.0_192.ckpt',['batch:0'],'MobilenetV1/Predictions/Reshape_1:0','output/html_dst3.html')
+# read_graph( '../../mobilenet_v1_1.0_192_frozen.pb' ,['input:0'],'MobilenetV1/Predictions/Reshape_1:0','output/html_dst1.html')
