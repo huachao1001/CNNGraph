@@ -187,6 +187,6 @@ if __name__=='__main__':
     html_dst = sys.argv[4]
     input_names=input_names.split(',')
     read_graph(model_path,input_names,output_name,html_dst)
- 
+  
 # read_graph('../../mobilenet_v1_1.0_192.ckpt',['batch:0'],'MobilenetV1/Predictions/Reshape_1:0','output/html_dst3.html')
 # read_graph( '../../mobilenet_v1_1.0_192_frozen.pb' ,['input:0'],'MobilenetV1/Predictions/Reshape_1:0','output/html_dst1.html')
