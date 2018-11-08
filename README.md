@@ -15,5 +15,7 @@ python read_graph.py  mobilenet_v1_1.0_192.ckpt batch:0 MobilenetV1/Predictions/
 ```
 ## 3 效果展示
 MobileNet V1 网络结构解析并展示效果
+
 ![合并计算节点效果](merged_demo.gif)
+
 ![展开计算节点效果](network_demo.gif)
